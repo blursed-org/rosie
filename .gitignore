@@ -1,0 +1,15 @@
+# Runtime data
+pids
+_.pid
+_.seed
+*.pid.lock
+# Dependency directories
+node_modules/
+# TypeScript cache
+*.tsbuildinfo
+# Optional npm cache directory
+.npm
+# dotenv environment variable files
+.env
+# Finder (MacOS) folder config
+.DS_Store
