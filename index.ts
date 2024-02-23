@@ -34,13 +34,13 @@ async function updateData() {
         const id = key.split(":")[1];
         const message = await redis.get(key);
         const response = await redis.get(`response:${id}`);
-        return { id, content: message, response };
+        return { id, content: message, response } as {id: string, content: string, response: string}
       })
     ).then((data) => {
       data.forEach((message) => {
         messages.push(
-          { role: "user", content: message.content as string },
-          { role: "assistant", content: message.response as string }
+          { role: "user", content: message.content },
+          { role: "assistant", content: message.response }
         );
       });
     });
