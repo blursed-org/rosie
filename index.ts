@@ -64,7 +64,14 @@ client.on(Events.MessageCreate, async (message) => {
   ).choices[0].message.content as string;
   console.timeEnd("gpt_generate")
 
-  message.reply(response);
+  if (response.length >= 2000) {
+    const chunks = response.match(/[\s\S]{1,2000}/g);
+    for (const chunk of chunks!) {
+      message.reply(chunk);
+    }
+  } else {
+    message.reply(response);
+  }
   await redis.set(`message:${message.id}`, message.content);
   await redis.set(`response:${message.id}`, response);
 });
