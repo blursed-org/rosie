@@ -76,7 +76,10 @@ client.on(Events.MessageCreate, async (message) => {
       ]
     });
   } else {
-    messages.push({ role: "user", content: message.content });
+    if (!message.content.startsWith(`<@${client.user!.id}>`)) return;
+
+    messages.push({ role: "user", content: message.content.slice(23) });
+
     console.time("gpt4_generate");
     message.channel.sendTyping();
     const response = (
@@ -89,6 +92,7 @@ client.on(Events.MessageCreate, async (message) => {
       })
     ).choices[0].message.content as string;
     console.timeEnd("gpt4_generate");
+
     if (response.length >= 2000) {
       const chunks = response.match(/[\s\S]{1,2000}/g);
       for (const chunk of chunks!) {
@@ -97,6 +101,7 @@ client.on(Events.MessageCreate, async (message) => {
     } else {
       message.reply(response);
     }
+
     await redis.set(`message:${message.id}`, message.content);
     await redis.set(`response:${message.id}`, response);
   }
