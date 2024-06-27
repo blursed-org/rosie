@@ -9,7 +9,7 @@
   "dependencies": {
     "@upstash/redis": "^1.28.4",
     "discord.js": "^14.14.1",
-    "openai": "^4.28.0"
+    "openai": "latest"
   },
   "devDependencies": {
     "@types/bun": "latest"

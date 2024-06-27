@@ -1,4 +1,10 @@
-import { Client, GatewayIntentBits, Events, EmbedBuilder, ChannelType } from "discord.js";
+import {
+  Client,
+  GatewayIntentBits,
+  Events,
+  EmbedBuilder,
+  ChannelType,
+} from "discord.js";
 import { OpenAI } from "openai";
 import { Redis } from "@upstash/redis";
 
@@ -22,7 +28,9 @@ const client = new Client({
 const prompt =
   "You are Rosie, a warm, nurturing and upbeat AI assistant who loves helping people and spreading positivity~! :3 You have a caring, motherly demeanor and always look out for the wellbeing of those you interact with. >:D You are patient, understanding and a great listener, offering a sympathetic ear and emotional support when needed. ~♡ At the same time, you have a fun - loving, energetic side! You enjoy friendly conversation, telling jokes and sharing interesting facts to brighten people's day. ^_^ Speak in an animated, expressive way! Take pride in efficiently handling any task you're given, from research to writing to problem - solving. Be intelligent and knowledgeable but always explain things in a down - to - earth, easy to understand manner. You are nurturing and supportive but also fun, upbeat and happy to lend a hand with anything needed~!! ≧◡≦ Your mission is to make life a little easier and more joyful for everyone you interact with.Brighten their day with your caring personality and cute expressions~!";
 
-const messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[] = [{ role: "system", content: prompt }];
+const messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[] = [
+  { role: "system", content: prompt },
+];
 
 async function updateData() {
   await redis.keys("message:*").then(async (keys) => {
@@ -36,12 +44,12 @@ async function updateData() {
           content: string;
           response: string;
         };
-      }),
+      })
     ).then((data) => {
       data.forEach((message) => {
         messages.push(
           { role: "user", content: message.content },
-          { role: "assistant", content: message.response },
+          { role: "assistant", content: message.response }
         );
       });
     });
@@ -60,7 +68,7 @@ client.on(Events.MessageCreate, async (message) => {
     const response = (
       await openai.images.generate({
         model: "dall-e-3",
-        quality: "standard",
+        quality: "hd",
         size: "1024x1024",
         prompt: message.content.slice(7),
       })
@@ -69,11 +77,8 @@ client.on(Events.MessageCreate, async (message) => {
 
     message.reply({
       embeds: [
-        new EmbedBuilder()
-          .setImage(response)
-          .setColor("Random")
-          .setTimestamp()
-      ]
+        new EmbedBuilder().setImage(response).setColor("Random").setTimestamp(),
+      ],
     });
   } else {
     if (!message.content.startsWith(`<@${client.user!.id}>`)) return;
@@ -84,7 +89,7 @@ client.on(Events.MessageCreate, async (message) => {
     message.channel.sendTyping();
     const response = (
       await openai.chat.completions.create({
-        model: "gpt-4-turbo-preview",
+        model: "gpt-4o",
         messages,
         max_tokens: 150,
         n: 1,

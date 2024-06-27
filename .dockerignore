@@ -1,0 +1,23 @@
+# flyctl launch added from .gitignore
+# Runtime data
+**/pids
+**/_.pid
+**/_.seed
+**/*.pid.lock
+# Dependency directories
+**/node_modules
+# TypeScript cache
+**/*.tsbuildinfo
+# Optional npm cache directory
+**/.npm
+# dotenv environment variable files
+**/.env
+# Finder (MacOS) folder config
+**/.DS_Store
+
+# flyctl launch added from node_modules/digest-fetch/.gitignore
+!node_modules/digest-fetch/**/.gitignore
+node_modules/digest-fetch/**/node_modules
+node_modules/digest-fetch/**/packing
+
+fly.toml
