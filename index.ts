@@ -104,9 +104,9 @@ client.on(Events.MessageCreate, async (message) => {
       await openai.chat.completions.create({
         model: "gpt-4o",
         messages,
-        max_tokens: 1000,
+        max_tokens: 1500,
         n: 1,
-        temperature: 0.3,
+        temperature: 0.8,
       })
     ).choices[0].message.content as string;
     console.timeEnd("gpt4_generate");
