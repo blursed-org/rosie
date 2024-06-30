@@ -9,6 +9,7 @@ import { OpenAI } from "openai";
 import { Redis } from "@upstash/redis";
 
 const redis = new Redis({
+  // @ts-ignore
   url: Bun.env.UPSTASH_REDIS_REST_URL,
   token: Bun.env.UPSTASH_REDIS_REST_TOKEN,
 });
@@ -78,6 +79,18 @@ client.on(Events.MessageCreate, async (message) => {
     message.reply({
       embeds: [
         new EmbedBuilder().setImage(response).setColor("Random").setTimestamp(),
+      ],
+    });
+  } else if (message.content === "/help") {
+    message.reply({
+      embeds: [
+        new EmbedBuilder()
+          .setTitle("Commands")
+          .setDescription(
+            "/image <prompt> - Generate an image from text\n@Rosie <message> - Chat with Rosie\n/help - Show this message"
+          )
+          .setColor("Random")
+          .setTimestamp(),
       ],
     });
   } else {
