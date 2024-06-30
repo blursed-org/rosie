@@ -104,15 +104,15 @@ client.on(Events.MessageCreate, async (message) => {
       await openai.chat.completions.create({
         model: "gpt-4o",
         messages,
-        max_tokens: 150,
+        max_tokens: 1000,
         n: 1,
-        temperature: 0.8,
+        temperature: 0.3,
       })
     ).choices[0].message.content as string;
     console.timeEnd("gpt4_generate");
 
-    if (response.length >= 2000) {
-      const chunks = response.match(/[\s\S]{1,2000}/g);
+    if (response.length >= 1988) {
+      const chunks = response.match(/[\s\S]{1,1988}/g);
       for (const chunk of chunks!) {
         message.reply(chunk);
       }
